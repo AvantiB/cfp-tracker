@@ -100,6 +100,7 @@ def append_to_database(json_string: str, link: str, database_file: str = "grants
             print("Database created with initial records.")
 
         # Save the updated data
+        df_existing.dropna(axis=1, how='all', inplace=True)
         df_existing.to_csv(database_file, index=False)
 
     except Exception as e:
