@@ -9,6 +9,8 @@ import pandas as pd
 import json
 from schema import json_schema
 
+print("🚀 Starting CFP Tracker...")
+
 # Base URL for the search results
 BASE_SEARCH_URL = "https://simpler.grants.gov/search?sortby=postedDateDesc&page={}"
 
