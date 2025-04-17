@@ -63,6 +63,7 @@ def append_to_database(json_string: str, link: str, database_file: str = "grants
 
         # Convert new data to DataFrame
         df_new = pd.DataFrame(new_entries)
+        new_row["source_url"] = link
 
         # Load existing database if it exists
         if os.path.exists(database_file):
@@ -70,7 +71,6 @@ def append_to_database(json_string: str, link: str, database_file: str = "grants
 
             for _, new_row in df_new.iterrows():
                 # Define match condition
-                new_row["source_url"] = link
                 condition = (
                     (df_existing["program_id"] == new_row["program_id"]) &
                     (df_existing["program_name"] == new_row["program_name"]) &
@@ -219,7 +219,7 @@ def process_opportunity(url):
     return "No usable content found."
 
 def main():
-    for page in range(1, 6):
+    for page in range(1, 10):
         print(f"\n=== PAGE {page} ===")
         try:
             links = get_opportunity_links(page)
