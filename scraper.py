@@ -63,13 +63,13 @@ def append_to_database(json_string: str, link: str, database_file: str = "grants
 
         # Convert new data to DataFrame
         df_new = pd.DataFrame(new_entries)
-        new_row["source_url"] = link
 
         # Load existing database if it exists
         if os.path.exists(database_file):
             df_existing = pd.read_csv(database_file, dtype=str)
 
             for _, new_row in df_new.iterrows():
+                new_row["source_url"] = link
                 # Define match condition
                 condition = (
                     (df_existing["program_id"] == new_row["program_id"]) &
