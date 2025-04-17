@@ -96,6 +96,7 @@ def append_to_database(json_string: str, link: str, database_file: str = "grants
                         print(f"No changes detected for: {new_row['program_id']}, skipping.")
         else:
             # No existing file, write new one
+            df_new["source_url"] = link
             df_existing = df_new
             print("Database created with initial records.")
 
