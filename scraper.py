@@ -201,22 +201,36 @@ def check_additional_info_link(soup):
 
 def process_opportunity(url):
     print(f"\n=== Processing: {url} ===")
-    response = requests.get(url, headers=HEADERS)
-    response.raise_for_status()
-    soup = BeautifulSoup(response.text, 'html.parser')
+    try:
+        response = requests.get(url, headers=HEADERS)
+        response.raise_for_status()
+        soup = BeautifulSoup(response.text, 'html.parser')
+        title_tag = soup.find("h1")
+        program_name = title_tag.get_text(strip=True) if title_tag else ""
+        exclusion_keywords = [
+            "early career",
+            "young investigator",
+            "new investigator",
+            "early-stage investigator",
+            "early-stage researcher"
+        ]
+        if any(keyword in program_name.lower() for keyword in exclusion_keywords):
+            print(f"Skipped (title indicates early career award): {program_name}")
+            return ""  # Skip this entry
 
-    summary = extract_summary(soup)
-    # print(f"\nSummary:\n{summary}")
+        summary = extract_summary(soup)
+        # print(f"\nSummary:\n{summary}")
 
-    pdf_text = download_and_read_pdfs(soup)
-    if pdf_text:
-        return summary + "\n\n" + pdf_text
+        pdf_text = download_and_read_pdfs(soup)
+        if pdf_text:
+            return summary + "\n\n" + pdf_text
 
-    link_text = check_additional_info_link(soup)
-    if link_text:
-        return summary + "\n\n" + link_text
-
-    return "No usable content found."
+        link_text = check_additional_info_link(soup)
+        if link_text:
+            return summary + "\n\n" + link_text
+    except Exception as e:
+        print(f"Error processing {url}: {e}")
+        return ""
 
 def main():
     for page in range(1, 10):
@@ -226,8 +240,11 @@ def main():
             for link in links:
                 cfp_text = process_opportunity(link)
                 if cfp_text:
-                    response = get_response (cfp_text, json_schema)  # returns JSON string
-                    append_to_database(response, link = link)
+                    try:
+                        response = get_response (cfp_text, json_schema)  # returns JSON string
+                        append_to_database(response, link = link)
+                    except openai.OpenAIError as e:
+                        print(f"OpenAI error for {link}: {e}")
                 time.sleep(1)
         except Exception as e:
             print(f"Error on page {page}: {e}")
