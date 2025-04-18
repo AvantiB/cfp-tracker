@@ -50,7 +50,7 @@ json_schema = {
                         },
                         "proposal_summary": {
                             "type": "string",
-                            "description": "Briefly summarize the proposal in 25-30 words"
+                            "description": "Briefly summarize the proposal in 50 words"
                         },
                         "genAI_relevance": {
                             "type": "string",
