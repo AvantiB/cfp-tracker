@@ -34,7 +34,7 @@ def get_response (text, json_schema):
                 "role": "system",
                 "content": """You are a helpful assistant that extracts structured data from Call For Proposal(CFP) text.
                     Your job is to perform the following tasks: 
-                    1. Summarize the proposal in 25-30 words
+                    1. Summarize the proposal in 50 words
                     2. Extract 10 keywords based on the focus of the proposal
                     3. Identify 5 key research areas that this proposal is most relevant to
                     4. Fill in additional fields as per the schema provided. Ensure the extracted values are accurate, concise, and formatted as strings (or lists where applicable)
