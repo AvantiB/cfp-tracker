@@ -5,3 +5,4 @@ beautifulsoup4
 pypdf
 streamlit
 cryptography>=3.1
+tabulate
