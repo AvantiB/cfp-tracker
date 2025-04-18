@@ -32,6 +32,8 @@ jobs:
         run: |
           git config --global user.name "cfp-bot"
           git config --global user.email "cfp-bot@example.com"
+          git pull --rebase origin main
+          
           git add grants_database.csv
           git commit -m "Auto update: scrape $(date -u +%Y-%m-%d)" || echo "No changes to commit"
           git push
