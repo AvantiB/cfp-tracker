@@ -32,10 +32,17 @@ jobs:
         run: |
           git config --global user.name "cfp-bot"
           git config --global user.email "cfp-bot@example.com"
+      - name: Pull latest changes with rebase
+        run: |
           git pull --rebase origin main
-          
+      
+      - name: Stage and commit changes to grants_database.csv
+        run: | 
           git add grants_database.csv
           git commit -m "Auto update: scrape $(date -u +%Y-%m-%d)" || echo "No changes to commit"
+      
+      - name: Push changes
+        run: |
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
