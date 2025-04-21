@@ -27,20 +27,25 @@ jobs:
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           BASE_URL: ${{ secrets.BASE_URL }}
-
+      
+      # Configure git user
       - name: Commit and push updated CSV
         run: |
           git config --global user.name "cfp-bot"
           git config --global user.email "cfp-bot@example.com"
+      
+      # Pull the latest changes from main with rebase to avoid merge conflicts
       - name: Pull latest changes with rebase
         run: |
           git pull --rebase origin main
-      
+
+      # Stage and commit changes to grants_database.csv
       - name: Stage and commit changes to grants_database.csv
         run: | 
           git add grants_database.csv
           git commit -m "Auto update: scrape $(date -u +%Y-%m-%d)" || echo "No changes to commit"
-      
+
+      # Push the changes
       - name: Push changes
         run: |
           git push
