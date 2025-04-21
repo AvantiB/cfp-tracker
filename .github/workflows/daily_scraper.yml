@@ -34,6 +34,11 @@ jobs:
           git config --global user.name "cfp-bot"
           git config --global user.email "cfp-bot@example.com"
       
+      # Stash local changes before pulling
+      - name: Stash local changes if any
+        run: |
+          git stash || echo "No changes to stash"
+
       # Pull the latest changes from main with rebase to avoid merge conflicts
       - name: Pull latest changes with rebase
         run: |
